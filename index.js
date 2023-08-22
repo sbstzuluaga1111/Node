@@ -28,25 +28,46 @@ console.log('will read file') */
 
 //SERVER:
 
-
+const replaceTemplate = (temp, product) => {
+    let output = temp.remplace(/{%PRODUCTNAME%}/, product.productName);
+    output = output.replace
+}
+const tempOverview = fs.readFileSync(`${__dirname}/templates/template-overview.html`, 'utf-8',)
+const tempCard= fs.readFileSync(`${__dirname}/templates/template-card.html`, 'utf-8',)
+const tempProduc = fs.readFileSync(`${__dirname}/templates/template-product.html`, 'utf-8',)
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8',)
 const proObj = JSON.parse(data)
 
 const server = http.createServer((req, res) =>{
     console.log(req.url);
-
     const pathName = req.url;
+
+
+// Overview page   
     if (pathName === '/' || pathName === '/overview'){
-        res.end('welcome a overview')
+
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        const cardsHtml = dataObh.map(el => replaceTemplate(tempCard, el))
+
+        res.end(tempOverview)
+
+
+// Product page
+
     }else if(pathName === '/product'){
         res.end('welcome a product')
+
+// API
+
     } else 
-    
     if (pathName === '/api'){
         
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(data);
+
+
+// Not found
         
     } else{
         res.writeHead(404, {'Content-Type': 'text/html',
